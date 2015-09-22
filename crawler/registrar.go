@@ -106,6 +106,15 @@ func (r *Registrar) writeRegistry() error {
 	return SafeFileRotate(r.registryFile, tempfile)
 }
 
+// SafeFileRotate safely rotates an existing file under path and replaces it with the tempfile
+func SafeFileRotate(path, tempfile string) error {
+	if e := os.Rename(tempfile, path); e != nil {
+		logp.Info("Registry rotate error: %v", e)
+		return e
+	}
+	return nil
+}
+
 func (r *Registrar) fetchState(filePath string, fileInfo os.FileInfo) (int64, bool) {
 
 	// Check if there is a state for this file
