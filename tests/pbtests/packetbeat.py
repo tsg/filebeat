@@ -1,4 +1,5 @@
 import subprocess
+
 import jinja2
 import unittest
 import os
@@ -123,7 +124,8 @@ class TestCase(unittest.TestCase):
                 jsons.append(self.flatten_object(json.loads(line),
                                                  self.dict_fields))
         self.all_have_fields(jsons, ["@timestamp", "type", "status",
-                                     "shipper", "count"])
+                                     "beat.name", "beat.hostname",
+                                     "beat.version", "count"])
         self.all_fields_are_expected(jsons, self.expected_fields)
         return jsons
 
